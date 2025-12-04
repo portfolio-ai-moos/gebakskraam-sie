@@ -15,19 +15,19 @@
 }
 
 @layer components {
-  .btn-primary {
-    @apply bg-nostalgia-red text-white px-6 py-3 font-serif text-lg hover:bg-opacity-90 transition-all duration-300 border-2 border-nostalgia-red;
-  }
-  
-  .btn-secondary {
-    @apply bg-transparent text-nostalgia-red px-6 py-3 font-serif text-lg border-2 border-nostalgia-red hover:bg-nostalgia-red hover:text-white transition-all duration-300;
+  .nostalgic-shadow {
+    box-shadow: 0 4px 6px -1px rgba(122, 30, 30, 0.1), 0 2px 4px -1px rgba(122, 30, 30, 0.06);
   }
   
   .gold-border {
-    @apply border-4 border-nostalgia-gold;
+    border: 2px solid #D9B36C;
   }
   
-  .nostalgic-shadow {
-    box-shadow: 0 4px 20px rgba(122, 30, 30, 0.3);
+  .nostalgic-button {
+    @apply bg-nostalgia-red hover:bg-nostalgia-red/90 text-white font-serif px-6 py-3 transition-all duration-300;
+  }
+  
+  .nostalgic-card {
+    @apply bg-nostalgia-cream border-2 border-nostalgia-gold/30 p-6 rounded-lg;
   }
 }

@@ -2,6 +2,11 @@
 
 import { useState } from 'react'
 import Image from 'next/image'
+import Link from 'next/link'
+import { motion } from 'framer-motion'
+import { AnimatedSection } from '@/components/AnimatedSection'
+import { ParticleBackground } from '@/components/ParticleBackground'
+import { Button } from '@/components/ui/button'
 
 export default function Contact() {
   const [formData, setFormData] = useState({
@@ -12,6 +17,8 @@ export default function Contact() {
     eventType: 'kermis'
   })
 
+  const [isSubmitting, setIsSubmitting] = useState(false)
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target
     setFormData(prev => ({
@@ -20,294 +27,503 @@ export default function Contact() {
     }))
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    setIsSubmitting(true)
+    
+    // Simulate form submission
+    await new Promise(resolve => setTimeout(resolve, 1000))
+    
     console.log('Form submitted:', formData)
-    // Here you would normally handle the form submission
     alert('Bedankt voor uw bericht! We nemen zo snel mogelijk contact met u op.')
+    
+    // Reset form
+    setFormData({
+      name: '',
+      email: '',
+      phone: '',
+      message: '',
+      eventType: 'kermis'
+    })
+    setIsSubmitting(false)
   }
 
+  const contactInfo = [
+    {
+      title: 'Adres',
+      content: 'Kerkstraat 123\n1234 AB Nostalgia',
+      icon: '📍'
+    },
+    {
+      title: 'Telefoon',
+      content: '+31 6 1234 5678',
+      icon: '📞'
+    },
+    {
+      title: 'Email',
+      content: 'info@gebakskraam.nl',
+      icon: '✉️'
+    },
+    {
+      title: 'Openingstijden',
+      content: 'Vrijdag & Zaterdag\n10:00 - 22:00',
+      icon: '��'
+    }
+  ]
+
   return (
-    <div>
-      {/* Hero Section */}
-      <section className="relative h-96">
-        <div className="absolute inset-0 bg-nostalgia-brown">
+    <div className="min-h-screen">
+      {/* Premium Hero Section */}
+      <section className="relative h-96 overflow-hidden">
+        <motion.div
+          className="absolute inset-0"
+          initial={{ scale: 1.1 }}
+          whileInView={{ scale: 1 }}
+          transition={{ duration: 1.2, ease: "easeOut" }}
+        >
           <Image
             src="/img/kraam.jpg"
-            alt="Contacteer onze nostalgische gebakskraam"
+            alt="Contact - Vind onze nostalgische kraam"
             fill
-            className="object-cover opacity-50"
+            className="object-cover"
+            priority
           />
-        </div>
-        <div className="relative z-10 h-full flex items-center justify-center text-center text-white px-4">
-          <div className="max-w-4xl">
-            <h1 className="font-serif text-5xl md:text-6xl font-bold text-nostalgia-gold mb-4">
+          <div className="absolute inset-0 bg-gradient-to-b from-nostalgia-brown/60 via-nostalgia-brown/70 to-nostalgia-brown/80" />
+        </motion.div>
+        
+        {/* Floating Particles */}
+        <ParticleBackground />
+
+        <AnimatedSection className="relative z-10 h-full flex items-center justify-center text-center text-white px-4">
+          <motion.div 
+            className="max-w-4xl"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, delay: 0.3 }}
+            viewport={{ once: true }}
+          >
+            {/* Luxury Badge */}
+            <motion.div
+              className="inline-flex items-center gap-2 bg-nostalgia-gold/20 backdrop-blur-md border border-nostalgia-gold/30 rounded-full px-6 py-2 mb-8"
+              initial={{ opacity: 0, scale: 0.8 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.8, delay: 0.5 }}
+              viewport={{ once: true }}
+            >
+              <span className="text-nostalgia-gold text-sm font-serif">✦</span>
+              <span className="text-nostalgia-gold text-sm font-medium">Bereikbaar</span>
+              <span className="text-nostalgia-gold text-sm font-serif">✦</span>
+            </motion.div>
+
+            <motion.h1 
+              className="font-serif text-5xl md:text-6xl font-bold mb-6 text-nostalgia-gold leading-tight"
+              initial={{ opacity: 0, scale: 0.9 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 1.2, delay: 0.5 }}
+              viewport={{ once: true }}
+            >
               Contact
-            </h1>
-            <p className="font-body text-xl md:text-2xl">
-              Vind onze kraam of boek ons voor uw evenement
-            </p>
-          </div>
-        </div>
+            </motion.h1>
+            <motion.p 
+              className="font-body text-xl md:text-2xl text-nostalgia-cream/90"
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              transition={{ duration: 1, delay: 0.7 }}
+              viewport={{ once: true }}
+            >
+              Vind onze kraam en proef de authenticiteit van traditioneel ambachtelijk gebak
+            </motion.p>
+          </motion.div>
+        </AnimatedSection>
       </section>
 
-      {/* Contact Info Section */}
-      <section className="py-20 bg-nostalgia-cream">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
+      {/* Premium Contact Info Section */}
+      <AnimatedSection className="py-20 bg-gradient-to-br from-nostalgia-cream via-nostalgia-cream to-nostalgia-cream/95 relative overflow-hidden">
+        {/* Background Pattern */}
+        <motion.div
+          className="absolute inset-0 opacity-5"
+          animate={{
+            backgroundPosition: ["0% 0%", "100% 0%"]
+          }}
+          transition={{
+            duration: 40,
+            repeat: Infinity,
+            ease: "linear"
+          }}
+          style={{
+            backgroundImage: `radial-gradient(circle at 25% 25%, #D9B36C 2px, transparent 2px),
+                             radial-gradient(circle at 75% 75%, #D9B36C 2px, transparent 2px)`,
+            backgroundSize: '60px 60px'
+          }}
+        />
+
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <motion.div 
+            className="text-center mb-16"
+            initial={{ opacity: 0, y: -30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+          >
             <h2 className="font-serif text-4xl md:text-5xl font-bold text-nostalgia-red mb-6">
-              Onze Kraam Reist naar U
+              Kom langs bij onze Kraam
             </h2>
-            <p className="font-body text-xl text-nostalgia-brown max-w-3xl mx-auto">
-              Onze kraam reist naar markten, evenementen, kerstmarkten en pleinen — 
-              net als de historische gebakkramen van de Nederlandse kermissen.
+            <p className="font-body text-xl text-nostalgia-brown max-w-3xl mx-auto leading-relaxed">
+              Wij staan klaar om u te verwelkomen met de geur van vers gebak en de warme sfeer 
+              van de traditionele Nederlandse kermis.
             </p>
-          </div>
+          </motion.div>
 
-          <div className="grid md:grid-cols-3 gap-8 mb-16">
-            <div className="text-center">
-              <div className="text-5xl text-nostalgia-red mb-4">📍</div>
-              <h3 className="font-serif text-2xl font-bold text-nostalgia-red mb-4">
-                Locatie
-              </h3>
-              <p className="font-body text-nostalgia-brown">
-                Wij reizen door heel Nederland.<br />
-                Volg ons op sociale media voor<br />
-                actuele locaties.
-              </p>
-            </div>
-
-            <div className="text-center">
-              <div className="text-5xl text-nostalgia-red mb-4">📞</div>
-              <h3 className="font-serif text-2xl font-bold text-nostalgia-red mb-4">
-                Telefoon
-              </h3>
-              <p className="font-body text-nostalgia-brown">
-                <a href="tel:0612345678" className="hover:text-nostalgia-red transition-colors">
-                  06-123 456 78
-                </a><br />
-                Dagelijks bereikbaar<br />
-                van 08:00 tot 20:00 uur
-              </p>
-            </div>
-
-            <div className="text-center">
-              <div className="text-5xl text-nostalgia-red mb-4">✉️</div>
-              <h3 className="font-serif text-2xl font-bold text-nostalgia-red mb-4">
-                E-mail
-              </h3>
-              <p className="font-body text-nostalgia-brown">
-                <a href="mailto:info@gebakskraam.nl" className="hover:text-nostalgia-red transition-colors">
-                  info@gebakskraam.nl
-                </a><br />
-                Voor boekingen en<br />
-                algemene vragen
-              </p>
-            </div>
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {contactInfo.map((item, index) => (
+              <motion.div
+                key={item.title}
+                className="text-center p-8 bg-gradient-to-br from-nostalgia-cream to-nostalgia-cream/90 border-2 border-nostalgia-gold/30 rounded-2xl hover:shadow-[0_15px_50px_rgba(217,179,108,0.2)] transition-all duration-500 group"
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: index * 0.1 }}
+                viewport={{ once: true }}
+                whileHover={{ scale: 1.05, y: -5 }}
+              >
+                <div className="w-16 h-16 mx-auto mb-6 bg-gradient-to-br from-nostalgia-gold to-nostalgia-gold/80 rounded-full flex items-center justify-center shadow-[0_6px_20px_rgba(217,179,108,0.3)] group-hover:scale-110 transition-transform duration-300">
+                  <span className="text-3xl">{item.icon}</span>
+                </div>
+                <h3 className="font-serif text-2xl font-bold text-nostalgia-red mb-3">
+                  {item.title}
+                </h3>
+                <p className="font-body text-nostalgia-brown whitespace-pre-line leading-relaxed">
+                  {item.content}
+                </p>
+              </motion.div>
+            ))}
           </div>
         </div>
-      </section>
+      </AnimatedSection>
 
-      {/* Contact Form Section */}
-      <section className="py-20 bg-nostalgia-brown">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
+      {/* Premium Contact Form Section */}
+      <AnimatedSection className="py-24 bg-gradient-to-br from-nostalgia-brown via-nostalgia-brown/95 to-nostalgia-brown relative overflow-hidden" direction="down">
+        {/* Background Elements */}
+        <motion.div
+          className="absolute inset-0 opacity-10"
+          animate={{
+            backgroundPosition: ["0% 0%", "100% 100%"]
+          }}
+          transition={{
+            duration: 50,
+            repeat: Infinity,
+            ease: "linear"
+          }}
+          style={{
+            backgroundImage: `radial-gradient(circle at 30% 50%, #D9B36C 80px, transparent 80px),
+                             radial-gradient(circle at 70% 50%, #D9B36C 40px, transparent 40px)`,
+            backgroundSize: '300px 200px'
+          }}
+        />
+
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <motion.div 
+            className="text-center mb-16"
+            initial={{ opacity: 0, y: -30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+          >
+            {/* Section Badge */}
+            <motion.div
+              className="inline-flex items-center gap-2 bg-nostalgia-gold/20 backdrop-blur-md border border-nostalgia-gold/30 rounded-full px-6 py-2 mb-8"
+              initial={{ opacity: 0, scale: 0.8 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              viewport={{ once: true }}
+            >
+              <span className="text-nostalgia-gold text-sm font-serif">★</span>
+              <span className="text-nostalgia-gold text-sm font-medium">Evenementen</span>
+              <span className="text-nostalgia-gold text-sm font-serif">★</span>
+            </motion.div>
+
             <h2 className="font-serif text-4xl md:text-5xl font-bold text-nostalgia-gold mb-6">
-              Boek Onze Kraam
+              Bestel voor uw Evenement
             </h2>
-            <p className="font-body text-xl text-nostalgia-cream">
-              Organiseert u een evenement, kermis of markt? Wij brengen de 
-              nostalgische sfeer naar uw locatie!
+            <p className="font-body text-xl text-nostalgia-cream/90 max-w-3xl mx-auto leading-relaxed">
+              Plan uw bestelling voor kermis, festival of particulier evenement. 
+              Wij verzorgen verse ambachtelijke producten op locatie.
             </p>
-          </div>
+          </motion.div>
 
-          <div className="bg-nostalgia-cream p-8 rounded-lg gold-border">
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div className="grid md:grid-cols-2 gap-6">
-                <div>
-                  <label htmlFor="name" className="block font-serif text-lg font-semibold text-nostalgia-red mb-2">
-                    Naam *
-                  </label>
-                  <input
-                    type="text"
-                    id="name"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleInputChange}
-                    required
-                    className="w-full px-4 py-3 border-2 border-nostalgia-gold rounded-lg font-body text-nostalgia-brown focus:outline-none focus:border-nostalgia-red"
-                    placeholder="Uw naam"
-                  />
+          <div className="grid md:grid-cols-2 gap-16 items-start">
+            <motion.div
+              initial={{ opacity: 0, x: -50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8 }}
+              viewport={{ once: true }}
+              className="bg-nostalgia-cream/5 backdrop-blur-md border border-nostalgia-gold/20 p-8 rounded-2xl"
+            >
+              <form onSubmit={handleSubmit} className="space-y-6">
+                <div className="grid md:grid-cols-2 gap-6">
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5, delay: 0.1 }}
+                    viewport={{ once: true }}
+                  >
+                    <label className="block font-serif text-lg text-nostalgia-gold mb-2">
+                      Naam *
+                    </label>
+                    <input
+                      type="text"
+                      name="name"
+                      value={formData.name}
+                      onChange={handleInputChange}
+                      required
+                      className="w-full px-4 py-3 bg-nostalgia-cream/90 border-2 border-nostalgia-gold/30 rounded-lg focus:border-nostalgia-gold focus:outline-none focus:ring-2 focus:ring-nostalgia-gold/20 transition-all font-body text-nostalgia-brown placeholder:text-nostalgia-brown/50"
+                      placeholder="Uw naam"
+                    />
+                  </motion.div>
+
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5, delay: 0.2 }}
+                    viewport={{ once: true }}
+                  >
+                    <label className="block font-serif text-lg text-nostalgia-gold mb-2">
+                      Email *
+                    </label>
+                    <input
+                      type="email"
+                      name="email"
+                      value={formData.email}
+                      onChange={handleInputChange}
+                      required
+                      className="w-full px-4 py-3 bg-nostalgia-cream/90 border-2 border-nostalgia-gold/30 rounded-lg focus:border-nostalgia-gold focus:outline-none focus:ring-2 focus:ring-nostalgia-gold/20 transition-all font-body text-nostalgia-brown placeholder:text-nostalgia-brown/50"
+                      placeholder="uw@email.nl"
+                    />
+                  </motion.div>
                 </div>
 
-                <div>
-                  <label htmlFor="email" className="block font-serif text-lg font-semibold text-nostalgia-red mb-2">
-                    E-mail *
-                  </label>
-                  <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleInputChange}
-                    required
-                    className="w-full px-4 py-3 border-2 border-nostalgia-gold rounded-lg font-body text-nostalgia-brown focus:outline-none focus:border-nostalgia-red"
-                    placeholder="uw@email.nl"
-                  />
-                </div>
-              </div>
-
-              <div className="grid md:grid-cols-2 gap-6">
-                <div>
-                  <label htmlFor="phone" className="block font-serif text-lg font-semibold text-nostalgia-red mb-2">
-                    Telefoon
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: 0.3 }}
+                  viewport={{ once: true }}
+                >
+                  <label className="block font-serif text-lg text-nostalgia-gold mb-2">
+                    Telefoonnummer
                   </label>
                   <input
                     type="tel"
-                    id="phone"
                     name="phone"
                     value={formData.phone}
                     onChange={handleInputChange}
-                    className="w-full px-4 py-3 border-2 border-nostalgia-gold rounded-lg font-body text-nostalgia-brown focus:outline-none focus:border-nostalgia-red"
-                    placeholder="06-123 456 78"
+                    className="w-full px-4 py-3 bg-nostalgia-cream/90 border-2 border-nostalgia-gold/30 rounded-lg focus:border-nostalgia-gold focus:outline-none focus:ring-2 focus:ring-nostalgia-gold/20 transition-all font-body text-nostalgia-brown placeholder:text-nostalgia-brown/50"
+                    placeholder="+31 6 1234 5678"
                   />
-                </div>
+                </motion.div>
 
-                <div>
-                  <label htmlFor="eventType" className="block font-serif text-lg font-semibold text-nostalgia-red mb-2">
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: 0.4 }}
+                  viewport={{ once: true }}
+                >
+                  <label className="block font-serif text-lg text-nostalgia-gold mb-2">
                     Type Evenement *
                   </label>
-                  <select
-                    id="eventType"
-                    name="eventType"
-                    value={formData.eventType}
+                  <div className="relative">
+                    <select
+                      name="eventType"
+                      value={formData.eventType}
+                      onChange={handleInputChange}
+                      required
+                      className="w-full px-4 py-3 bg-nostalgia-cream/90 border-2 border-nostalgia-gold/30 rounded-lg focus:border-nostalgia-gold focus:outline-none focus:ring-2 focus:ring-nostalgia-gold/20 transition-all font-body text-nostalgia-brown appearance-none"
+                    >
+                      <option value="kermis">Kermis</option>
+                      <option value="festival">Festival</option>
+                      <option value="bedrijfsevenement">Bedrijfsevenement</option>
+                      <option value="particulier">Particulier</option>
+                      <option value="braderie">Braderie</option>
+                      <option value="overig">Overig</option>
+                    </select>
+                    <div className="absolute right-4 top-1/2 transform -translate-y-1/2 pointer-events-none text-nostalgia-brown">
+                      ▼
+                    </div>
+                  </div>
+                </motion.div>
+
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: 0.5 }}
+                  viewport={{ once: true }}
+                >
+                  <label className="block font-serif text-lg text-nostalgia-gold mb-2">
+                    Bericht *
+                  </label>
+                  <textarea
+                    name="message"
+                    value={formData.message}
                     onChange={handleInputChange}
                     required
-                    className="w-full px-4 py-3 border-2 border-nostalgia-gold rounded-lg font-body text-nostalgia-brown focus:outline-none focus:border-nostalgia-red"
+                    rows={6}
+                    className="w-full px-4 py-3 bg-nostalgia-cream/90 border-2 border-nostalgia-gold/30 rounded-lg focus:border-nostalgia-gold focus:outline-none focus:ring-2 focus:ring-nostalgia-gold/20 transition-all font-body text-nostalgia-brown resize-none placeholder:text-nostalgia-brown/50"
+                    placeholder="Vertel ons meer over uw evenement en wensen..."
+                  />
+                </motion.div>
+
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: 0.6 }}
+                  viewport={{ once: true }}
+                >
+                  <Button
+                    type="submit"
+                    disabled={isSubmitting}
+                    size="lg"
+                    className="w-full bg-gradient-to-r from-nostalgia-gold to-nostalgia-gold/90 hover:from-nostalgia-gold/90 hover:to-nostalgia-gold text-nostalgia-brown border-2 border-nostalgia-gold/50 hover:border-nostalgia-gold shadow-[0_8px_30px_rgba(217,179,108,0.4)] hover:shadow-[0_12px_40px_rgba(217,179,108,0.5)] transition-all duration-400 font-serif text-lg px-8 py-4 disabled:opacity-50 disabled:cursor-not-allowed"
                   >
-                    <option value="kermis">Kermis</option>
-                    <option value="markt">Markt</option>
-                    <option value="kerstmarkt">Kerstmarkt</option>
-                    <option value="bedrijfsevenement">Bedrijfsevenement</option>
-                    <option value="particulier">Particulier Feest</option>
-                    <option value="overig">Overig</option>
-                  </select>
+                    {isSubmitting ? 'Versturen...' : 'Verstuur Bericht'}
+                  </Button>
+                </motion.div>
+              </form>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, x: 50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8 }}
+              viewport={{ once: true }}
+              className="space-y-8"
+            >
+              <div className="bg-gradient-to-br from-nostalgia-cream to-nostalgia-cream/90 p-8 border-2 border-nostalgia-gold/30 rounded-2xl shadow-[0_10px_40px_rgba(122,30,30,0.15)]">
+                <div className="flex items-center gap-4 mb-6">
+                  <div className="w-12 h-12 bg-gradient-to-br from-nostalgia-red to-nostalgia-red/80 rounded-full flex items-center justify-center shadow-[0_4px_15px_rgba(122,30,30,0.3)]">
+                    <span className="text-xl">🏆</span>
+                  </div>
+                  <h3 className="font-serif text-2xl font-bold text-nostalgia-red">
+                    Onze Specialiteiten
+                  </h3>
+                </div>
+                <div className="space-y-4">
+                  {[
+                    'Oliebollen - De klassieke kermistraktatie',
+                    'Krentenbollen - Zoet en luchtig',
+                    'Wafels - Krokant en ambachtelijk',
+                    'Suikerwerken - Voor de zoete trek',
+                    'Seizoensspecialiteiten - Varies per periode'
+                  ].map((item, index) => (
+                    <motion.div
+                      key={index}
+                      className="flex items-center gap-3 p-3 rounded-lg hover:bg-nostalgia-red/5 transition-colors duration-300"
+                      initial={{ opacity: 0, x: 20 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      transition={{ duration: 0.5, delay: index * 0.1 }}
+                      viewport={{ once: true }}
+                    >
+                      <span className="text-nostalgia-gold text-xl">◆</span>
+                      <span className="font-body text-nostalgia-brown">{item}</span>
+                    </motion.div>
+                  ))}
                 </div>
               </div>
 
-              <div>
-                <label htmlFor="message" className="block font-serif text-lg font-semibold text-nostalgia-red mb-2">
-                  Bericht *
-                </label>
-                <textarea
-                  id="message"
-                  name="message"
-                  value={formData.message}
-                  onChange={handleInputChange}
-                  required
-                  rows={6}
-                  className="w-full px-4 py-3 border-2 border-nostalgia-gold rounded-lg font-body text-nostalgia-brown focus:outline-none focus:border-nostalgia-red"
-                  placeholder="Vertel ons over uw evenement, gewenste datum, aantal verwachte bezoekers en speciale wensen..."
-                />
+              <div className="bg-gradient-to-br from-nostalgia-red/10 to-nostalgia-red/5 p-8 border-2 border-nostalgia-red/30 rounded-2xl backdrop-blur-sm">
+                <div className="flex items-center gap-4 mb-6">
+                  <div className="w-12 h-12 bg-gradient-to-br from-nostalgia-gold to-nostalgia-gold/80 rounded-full flex items-center justify-center shadow-[0_4px_15px_rgba(217,179,108,0.3)]">
+                    <span className="text-xl">ℹ️</span>
+                  </div>
+                  <h3 className="font-serif text-2xl font-bold text-nostalgia-red">
+                    Bestel Informatie
+                  </h3>
+                </div>
+                <div className="space-y-4 font-body text-nostalgia-brown">
+                  <div className="flex justify-between border-b border-nostalgia-red/20 pb-2">
+                    <span className="font-bold">Minimum bestelling:</span>
+                    <span>20 stuks</span>
+                  </div>
+                  <div className="flex justify-between border-b border-nostalgia-red/20 pb-2">
+                    <span className="font-bold">Bezorging:</span>
+                    <span>Heel Nederland</span>
+                  </div>
+                  <div className="flex justify-between border-b border-nostalgia-red/20 pb-2">
+                    <span className="font-bold">Voorbereiding:</span>
+                    <span>48 uur</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="font-bold">Betaling:</span>
+                    <span>Contant of factuur</span>
+                  </div>
+                </div>
               </div>
-
-              <div className="text-center">
-                <button type="submit" className="btn-primary text-lg px-8 py-4">
-                  Verstuur Bericht
-                </button>
-              </div>
-            </form>
+            </motion.div>
           </div>
         </div>
-      </section>
+      </AnimatedSection>
 
-      {/* Openingstijden Section */}
-      <section className="py-20 bg-nostalgia-cream">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="font-serif text-4xl md:text-5xl font-bold text-nostalgia-red mb-6">
-              Openingstijden
+      {/* Premium CTA Section */}
+      <AnimatedSection className="py-16 bg-gradient-to-br from-nostalgia-red via-nostalgia-red/95 to-nostalgia-red/90 relative overflow-hidden" direction="up">
+        {/* Animated Background */}
+        <motion.div
+          className="absolute inset-0 opacity-20"
+          animate={{
+            backgroundPosition: ["0% 0%", "100% 0%"]
+          }}
+          transition={{
+            duration: 30,
+            repeat: Infinity,
+            ease: "linear"
+          }}
+          style={{
+            backgroundImage: `radial-gradient(circle at 30% 50%, #D9B36C 60px, transparent 60px),
+                             radial-gradient(circle at 70% 50%, #D9B36C 30px, transparent 30px)`,
+            backgroundSize: '200px 100px'
+          }}
+        />
+
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+          >
+            <h2 className="font-serif text-4xl font-bold text-nostalgia-gold mb-6">
+              Wacht niet te Lang
             </h2>
-            <p className="font-body text-xl text-nostalgia-brown">
-              Onze kraam is geopend volgens de kermistraditie
+            <p className="font-body text-xl text-nostalgia-cream mb-8 max-w-3xl mx-auto leading-relaxed">
+              Onze kalender vult snel, zeker in het hoogseizoen. 
+              Plan uw bestelling tijdig om teleurstelling te voorkomen.
             </p>
-          </div>
-
-          <div className="grid md:grid-cols-2 gap-12 max-w-4xl mx-auto">
-            <div className="bg-white p-8 gold-border">
-              <h3 className="font-serif text-2xl font-bold text-nostalgia-red mb-6">
-                Kermis & Evenementen
-              </h3>
-              <div className="space-y-3 font-body text-lg text-nostalgia-brown">
-                <div className="flex justify-between">
-                  <span>Maandag - Vrijdag:</span>
-                  <span className="font-semibold">12:00 - 22:00</span>
-                </div>
-                <div className="flex justify-between">
-                  <span>Zaterdag:</span>
-                  <span className="font-semibold">10:00 - 23:00</span>
-                </div>
-                <div className="flex justify-between">
-                  <span>Zondag & Feestdagen:</span>
-                  <span className="font-semibold">10:00 - 22:00</span>
-                </div>
-              </div>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <motion.div
+                whileHover={{ scale: 1.05, y: -2 }}
+                whileTap={{ scale: 0.98 }}
+              >
+                <Button 
+                  size="lg"
+                  className="bg-gradient-to-r from-nostalgia-gold to-nostalgia-gold/90 hover:from-nostalgia-gold/90 hover:to-nostalgia-gold text-nostalgia-brown font-serif text-lg px-10 py-4 border-2 border-nostalgia-gold/50 hover:border-nostalgia-gold shadow-[0_8px_30px_rgba(217,179,108,0.4)] hover:shadow-[0_12px_40px_rgba(217,179,108,0.5)] transition-all duration-400"
+                  asChild
+                >
+                  <a href="#contact-form">Direct Bestellen</a>
+                </Button>
+              </motion.div>
+              <motion.div
+                whileHover={{ scale: 1.05, y: -2 }}
+                whileTap={{ scale: 0.98 }}
+              >
+                <Button 
+                  variant="outline" 
+                  size="lg"
+                  className="border-2 border-nostalgia-cream/60 text-nostalgia-cream hover:bg-nostalgia-cream hover:text-nostalgia-red font-serif text-lg px-10 py-4 backdrop-blur-sm shadow-[0_4px_20px_rgba(255,255,255,0.1)] hover:shadow-[0_8px_30px_rgba(255,255,255,0.2)] transition-all duration-400"
+                  asChild
+                >
+                  <Link href="/assortiment">Bekijk Assortiment</Link>
+                </Button>
+              </motion.div>
             </div>
-
-            <div className="bg-white p-8 gold-border">
-              <h3 className="font-serif text-2xl font-bold text-nostalgia-red mb-6">
-                Kerstmarkten
-              </h3>
-              <div className="space-y-3 font-body text-lg text-nostalgia-brown">
-                <div className="flex justify-between">
-                  <span>Maandag - Donderdag:</span>
-                  <span className="font-semibold">14:00 - 21:00</span>
-                </div>
-                <div className="flex justify-between">
-                  <span>Vrijdag - Zaterdag:</span>
-                  <span className="font-semibold">12:00 - 22:00</span>
-                </div>
-                <div className="flex justify-between">
-                  <span>Zondag:</span>
-                  <span className="font-semibold">11:00 - 21:00</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="text-center mt-12">
-            <p className="font-body text-lg text-nostalgia-brown italic">
-              &ldquo;In de geest van de traditionele kermissen zijn wij altijd 
-              aanwezig wanneer het volk samenkomt om te feesten.&rdquo;
-            </p>
-          </div>
+          </motion.div>
         </div>
-      </section>
-
-      {/* Social Media Section */}
-      <section className="py-16 bg-nostalgia-red">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="font-serif text-4xl font-bold text-nostalgia-gold mb-6">
-            Volg Onze Reis
-          </h2>
-          <p className="font-body text-xl text-white mb-8">
-            Blijf op de hoogte van waar onze kraam staat en deel uw 
-            kermisherinneringen met ons!
-          </p>
-          
-          <div className="flex justify-center space-x-6">
-            <a href="#" className="text-white hover:text-nostalgia-gold transition-colors text-3xl">
-              📘
-            </a>
-            <a href="#" className="text-white hover:text-nostalgia-gold transition-colors text-3xl">
-              📷
-            </a>
-            <a href="#" className="text-white hover:text-nostalgia-gold transition-colors text-3xl">
-              🐦
-            </a>
-          </div>
-        </div>
-      </section>
+      </AnimatedSection>
     </div>
   )
 }
