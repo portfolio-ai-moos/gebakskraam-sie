@@ -1,0 +1,33 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Lora:wght@400;500&display=swap');
+
+@layer base {
+  body {
+    @apply font-body text-nostalgia-brown bg-nostalgia-cream;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-serif;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-nostalgia-red text-white px-6 py-3 font-serif text-lg hover:bg-opacity-90 transition-all duration-300 border-2 border-nostalgia-red;
+  }
+  
+  .btn-secondary {
+    @apply bg-transparent text-nostalgia-red px-6 py-3 font-serif text-lg border-2 border-nostalgia-red hover:bg-nostalgia-red hover:text-white transition-all duration-300;
+  }
+  
+  .gold-border {
+    @apply border-4 border-nostalgia-gold;
+  }
+  
+  .nostalgic-shadow {
+    box-shadow: 0 4px 20px rgba(122, 30, 30, 0.3);
+  }
+}
